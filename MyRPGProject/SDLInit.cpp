@@ -1,11 +1,16 @@
 #include "SDLInit.h"
+bool sdlQuit = false;
+
+static SDL_Event event;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+SDL_Surface* loadSurface(std::string path);
 SDL_Window* gWindow = NULL;
 SDL_Surface* gScreenSurface = NULL;
+extern SDL_Surface* gPNGSurface;
 
 bool SDLInit::Setup(){
 	bool success = true;
@@ -36,6 +41,25 @@ bool SDLInit::Setup(){
 				printf("SDL rect could not be filled! SDL_Error: %s\n", SDL_GetError());
 				success = false;
 			}
+
+
+
+			else
+			{
+				//Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+					success = false;
+				}
+				else
+				{
+					//Get window surface
+					gScreenSurface = SDL_GetWindowSurface(gWindow);
+				}
+			}
+
 
 
 		}
@@ -73,13 +97,29 @@ SDL_Surface* SDLInit::loadSurface(std::string path)
 
 //TODO add dleta time to this update function
 void SDLInit::Update(){
+	/* Poll for events */
+	while (SDL_PollEvent(&event)){
 
+		switch (event.type){
+			/* Keyboard event */
+			/* Pass the event data onto PrintKeyInfo() */
+
+			/* SDL_QUIT event (window close) */
+		case SDL_QUIT:
+			sdlQuit = true;
+			break;
+
+		default:
+			break;
+		}
+		SDL_BlitSurface(gPNGSurface, NULL, gScreenSurface, NULL);
+
+		SDL_UpdateWindowSurface(gWindow);
+	}
 	//TODO move tis code to an update function
 	//Update the surface
-	SDL_UpdateWindowSurface(gWindow);
+	
 
-	//Wait two seconds
-	//SDL_Delay(2000);
 }
 
 bool SDLInit::Cleanup(SDL_Surface* surface){

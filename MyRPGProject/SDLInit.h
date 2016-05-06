@@ -1,7 +1,7 @@
 //Using SDL and standard IO
 #include <SDL.h>
-#include <stdio.h>
 #include <SDL_image.h>
+#include <stdio.h>
 #include <string>
 
 class SDLInit{

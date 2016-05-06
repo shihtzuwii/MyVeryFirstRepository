@@ -9,19 +9,20 @@ SDL_Surface* gPNGSurface = NULL;
 static SDLInit sdlInit;
 
 bool GameManager::Init(){
-	bool initSuccess = sdlInit.Setup();
+	bool initSuccess = sdlInit.Setup() &&
+		LoadMedia();
 
 	return initSuccess;
 
 }
 
-bool loadMedia()
+bool GameManager::LoadMedia()
 {
 	//Loading success flag
 	bool success = true;
 
 	//Load PNG surface
-	gPNGSurface = sdlInit.loadSurface("loaded.png"); //<-- current program isn't showing image, where should it go in the files?
+	gPNGSurface = sdlInit.loadSurface("grass.png"); //<-- current program isn't showing image, where should it go in the files?
 	if (gPNGSurface == NULL)
 	{
 		printf("Failed to load PNG image!\n");

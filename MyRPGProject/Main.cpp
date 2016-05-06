@@ -1,11 +1,16 @@
 #include "GameManager.h"
+extern bool sdlQuit;
 
 int main(int argc, char* args[])
 {
 	GameManager gameManager;
 
 	if (gameManager.Init()){
-		gameManager.Update();
+
+		/* Loop until an SDL_QUIT event is found */
+		while (!sdlQuit){
+			gameManager.Update();
+		}
 	}
 
 	return 0;
