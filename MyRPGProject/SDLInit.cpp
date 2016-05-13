@@ -10,7 +10,8 @@ const int SCREEN_HEIGHT = 480;
 SDL_Surface* loadSurface(std::string path);
 SDL_Window* gWindow = NULL;
 SDL_Surface* gScreenSurface = NULL;
-extern SDL_Surface* gPNGSurface;
+extern SDL_Surface* gPNGSurfaceGrass;
+extern SDL_Surface* gPNGSurfacePlayer;
 
 bool SDLInit::Setup(){
 	bool success = true;
@@ -81,7 +82,9 @@ SDL_Surface* SDLInit::loadSurface(std::string path)
 	else
 	{
 		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, NULL);
+		Uint32 colorkey = SDL_MapRGB(gScreenSurface->format, 0, 0xFF, 0xFF);
+
+		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, colorkey);
 		if (optimizedSurface == NULL)
 		{
 			printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
@@ -112,7 +115,8 @@ void SDLInit::Update(){
 		default:
 			break;
 		}
-		SDL_BlitSurface(gPNGSurface, NULL, gScreenSurface, NULL);
+		SDL_BlitSurface(gPNGSurfaceGrass, NULL, gScreenSurface, NULL);
+		SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, NULL);
 
 		SDL_UpdateWindowSurface(gWindow);
 	}

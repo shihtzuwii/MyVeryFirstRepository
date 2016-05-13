@@ -4,7 +4,8 @@
 extern SDL_Window* window;
 extern SDL_Surface* gScreenSurface;
 
-SDL_Surface* gPNGSurface = NULL;
+SDL_Surface* gPNGSurfaceGrass = NULL;
+SDL_Surface* gPNGSurfacePlayer = NULL;
 
 static SDLInit sdlInit;
 
@@ -22,8 +23,14 @@ bool GameManager::LoadMedia()
 	bool success = true;
 
 	//Load PNG surface
-	gPNGSurface = sdlInit.loadSurface("grass.png"); //<-- current program isn't showing image, where should it go in the files?
-	if (gPNGSurface == NULL)
+	gPNGSurfaceGrass = sdlInit.loadSurface("grass.png"); 
+	if (gPNGSurfaceGrass == NULL)
+	{
+		printf("Failed to load PNG image!\n");
+		success = false;
+	}
+	gPNGSurfacePlayer = sdlInit.loadSurface("player_up.png"); //<------- TODO MOVE THE CHARACTER WITH ARROWKEYS
+	if (gPNGSurfacePlayer == NULL)
 	{
 		printf("Failed to load PNG image!\n");
 		success = false;
@@ -35,7 +42,11 @@ bool GameManager::LoadMedia()
 bool GameManager::Cleanup(){
 	bool success = true;
 
-	if (!sdlInit.Cleanup(gPNGSurface)){
+	if (!sdlInit.Cleanup(gPNGSurfaceGrass)){
+		success = false;
+	}
+
+	if (!sdlInit.Cleanup(gPNGSurfacePlayer)){
 		success = false;
 	}
 
