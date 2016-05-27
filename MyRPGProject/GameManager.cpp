@@ -12,6 +12,7 @@ static SDL_Event event;
 SDL_Rect rectPlayer;
 SDL_Rect rectFood;
 
+<<<<<<< HEAD
 //player stuff
 SDL_Surface* gPNGSurfaceGrass = NULL;
 SDL_Surface* gPNGSurfacePlayer = NULL;
@@ -20,6 +21,10 @@ SDL_Surface* gPNGSurfacePlayerDown = NULL;
 SDL_Surface* gPNGSurfacePlayerRight = NULL;
 //food
 SDL_Surface* gPNGSurfaceFood = NULL;
+=======
+SDL_Surface* gPNGSurfaceGrass = NULL;
+SDL_Surface* gPNGSurfacePlayer = NULL;
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 
 static SDLInit sdlInit;
 char* direction = "up";
@@ -44,12 +49,17 @@ bool GameManager::LoadMedia()
 	//TODO: move surfaces to individual entities
 
 	//Load PNG surface
+<<<<<<< HEAD
 	gPNGSurfaceGrass = sdlInit.loadSurface("grass.png");
+=======
+	gPNGSurfaceGrass = sdlInit.loadSurface("grass.png"); 
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 	if (gPNGSurfaceGrass == NULL)
 	{
 		printf("Failed to load PNG image!\n");
 		success = false;
 	}
+<<<<<<< HEAD
 	gPNGSurfaceFood = sdlInit.loadSurface("food.png");
 	if (gPNGSurfaceFood == NULL)
 	{
@@ -76,6 +86,10 @@ bool GameManager::LoadMedia()
 	}
 	gPNGSurfacePlayerRight = sdlInit.loadSurface("player_right.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
 	if (gPNGSurfacePlayerRight == NULL)
+=======
+	gPNGSurfacePlayer = sdlInit.loadSurface("player_up.png"); //<------- TODO MOVE THE CHARACTER WITH ARROWKEYS
+	if (gPNGSurfacePlayer == NULL)
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 	{
 		printf("Failed to load PNG image!\n");
 		success = false;
@@ -127,10 +141,13 @@ bool GameManager::Cleanup(){
 	}
 
 	if (!sdlInit.Cleanup(gPNGSurfacePlayer)){
+<<<<<<< HEAD
 		success = false;
 	}
 
 	if (!sdlInit.Cleanup(gPNGSurfaceFood)){
+=======
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 		success = false;
 	}
 

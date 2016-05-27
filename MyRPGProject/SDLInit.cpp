@@ -15,6 +15,7 @@ int SCREEN_HEIGHT = 480;
 SDL_Surface* loadSurface(std::string path);
 SDL_Window* gWindow = NULL;
 SDL_Surface* gScreenSurface = NULL;
+<<<<<<< HEAD
 //extern SDL_Surface* gPNGSurfaceGrass;
 //extern SDL_Surface* gPNGSurfacePlayer;
 //extern SDL_Surface* gPNGSurfacePlayerLeft;
@@ -22,6 +23,10 @@ SDL_Surface* gScreenSurface = NULL;
 //extern SDL_Surface* gPNGSurfacePlayerRight;
 
 
+=======
+extern SDL_Surface* gPNGSurfaceGrass;
+extern SDL_Surface* gPNGSurfacePlayer;
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 
 bool SDLInit::Setup(){
 	bool success = true;
@@ -149,6 +154,11 @@ void SDLInit::Update(){
 			default:
 				break;
 		}
+<<<<<<< HEAD
+=======
+		SDL_BlitSurface(gPNGSurfaceGrass, NULL, gScreenSurface, NULL);
+		SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, NULL);
+>>>>>>> 24f2b58292516d8721c8c215377848f2341b970f
 
 		SDL_UpdateWindowSurface(gWindow);
 	}
