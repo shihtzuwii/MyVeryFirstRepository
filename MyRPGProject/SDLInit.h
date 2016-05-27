@@ -1,8 +1,13 @@
+#pragma once
+
 //Using SDL and standard IO
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+
+extern float horizAxis;
+extern float vertAxis;
 
 class SDLInit{
 

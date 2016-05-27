@@ -1,16 +1,27 @@
 #include "SDLInit.h"
+#include "GameManager.h"
+
 bool sdlQuit = false;
+
+float horizAxis = 0.0f;
+float vertAxis = 0.0f;
 
 static SDL_Event event;
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+int SCREEN_WIDTH = 640;
+int SCREEN_HEIGHT = 480;
 
 SDL_Surface* loadSurface(std::string path);
 SDL_Window* gWindow = NULL;
 SDL_Surface* gScreenSurface = NULL;
-extern SDL_Surface* gPNGSurface;
+//extern SDL_Surface* gPNGSurfaceGrass;
+//extern SDL_Surface* gPNGSurfacePlayer;
+//extern SDL_Surface* gPNGSurfacePlayerLeft;
+//extern SDL_Surface* gPNGSurfacePlayerDown;
+//extern SDL_Surface* gPNGSurfacePlayerRight;
+
+
 
 bool SDLInit::Setup(){
 	bool success = true;
@@ -81,7 +92,9 @@ SDL_Surface* SDLInit::loadSurface(std::string path)
 	else
 	{
 		//Convert surface to screen format
-		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, NULL);
+		Uint32 colorkey = SDL_MapRGB(gScreenSurface->format, 0, 0xFF, 0xFF);
+
+		optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, colorkey);
 		if (optimizedSurface == NULL)
 		{
 			printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
@@ -91,12 +104,16 @@ SDL_Surface* SDLInit::loadSurface(std::string path)
 		SDL_FreeSurface(loadedSurface);
 	}
 
+
 	return optimizedSurface;
 }
 
-
 //TODO add dleta time to this update function
 void SDLInit::Update(){
+	//clearing out input values
+	horizAxis = 0;
+	vertAxis = 0;
+	
 	/* Poll for events */
 	while (SDL_PollEvent(&event)){
 
@@ -105,21 +122,40 @@ void SDLInit::Update(){
 			/* Pass the event data onto PrintKeyInfo() */
 
 			/* SDL_QUIT event (window close) */
-		case SDL_QUIT:
-			sdlQuit = true;
+			case SDL_KEYDOWN:
+			{
+				switch (event.key.keysym.sym){
+				case SDLK_LEFT:
+					horizAxis = -1;
+					break;
+				case SDLK_RIGHT:
+					horizAxis = 1;
+					break;
+				case SDLK_UP:
+					vertAxis = -1;
+					break;
+				case SDLK_DOWN:
+					vertAxis = 1;
+					break;
+				default:
+					break;
+				}
+			}
 			break;
+			case SDL_QUIT:
+				sdlQuit = true;
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
-		SDL_BlitSurface(gPNGSurface, NULL, gScreenSurface, NULL);
 
 		SDL_UpdateWindowSurface(gWindow);
 	}
 	//TODO move tis code to an update function
 	//Update the surface
 	
-
+	//MovePlayer(rectPlayer);
 }
 
 bool SDLInit::Cleanup(SDL_Surface* surface){

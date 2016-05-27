@@ -9,6 +9,7 @@ int main(int argc, char* args[])
 
 		/* Loop until an SDL_QUIT event is found */
 		while (!sdlQuit){
+			gameManager.Draw();
 			gameManager.Update();
 		}
 	}
