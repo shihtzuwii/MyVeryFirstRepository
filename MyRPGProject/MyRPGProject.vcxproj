@@ -75,14 +75,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FoodObject.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="NonPlayer.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SDLInit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FoodObject.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="NonPlayer.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SDLInit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

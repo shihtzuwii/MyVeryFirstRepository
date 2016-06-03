@@ -1,6 +1,8 @@
 #include "GameManager.h"
 #include "SDLInit.h"
-
+#include "Player.h"
+#include "NonPlayer.h"
+#include "FoodObject.h"
 #include <time.h>
 
 extern SDL_Window* window;
@@ -9,8 +11,8 @@ extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 static SDL_Event event;
 
-SDL_Rect rectPlayer;
-SDL_Rect rectFood;
+Player player;
+FoodObject food;
 
 //player stuff
 SDL_Surface* gPNGSurfaceGrass = NULL;
@@ -84,11 +86,13 @@ bool GameManager::LoadMedia()
 	//Seeding our rand...
 	srand(time(0));
 
+	
+
 	//TODO: Move this to entity class (when we create entity)
-	rectFood.x = rand() % SCREEN_WIDTH + 1;	//randomize position...
-	rectFood.y = rand() % SCREEN_HEIGHT + 1;	//randomize position...
-	rectFood.w = 20;
-	rectFood.h = 20;
+	//rectFood.x = rand() % SCREEN_WIDTH + 1;	//randomize position...
+	//rectFood.y = rand() % SCREEN_HEIGHT + 1;	//randomize position...
+	//rectFood.w = 20;
+	//rectFood.h = 20;
 
 	return success;
 }
@@ -145,23 +149,24 @@ bool GameManager::Cleanup(){
 void GameManager::Draw(){
 	SDL_BlitSurface(gPNGSurfaceGrass, NULL, gScreenSurface, NULL); // code that displays grass
 
-	SDL_BlitSurface(gPNGSurfaceFood, NULL, gScreenSurface, &rectFood); // code that displays food
+	SDL_BlitSurface(gPNGSurfaceFood, NULL, gScreenSurface, &food.mRect); // code that displays food
 
 	if (direction == "up"){
-		SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, &rectPlayer); // code that displays player
+		SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, &player.mRect); // code that displays player
 	}
 	else if (direction == "left"){
-		SDL_BlitSurface(gPNGSurfacePlayerLeft, NULL, gScreenSurface, &rectPlayer); // code that displays player
+		SDL_BlitSurface(gPNGSurfacePlayerLeft, NULL, gScreenSurface, &player.mRect); // code that displays player
 	}
 	else if (direction == "right"){
-		SDL_BlitSurface(gPNGSurfacePlayerRight, NULL, gScreenSurface, &rectPlayer); // code that displays player
+		SDL_BlitSurface(gPNGSurfacePlayerRight, NULL, gScreenSurface, &player.mRect); // code that displays player
 	}
 	else if (direction == "down"){
-		SDL_BlitSurface(gPNGSurfacePlayerDown, NULL, gScreenSurface, &rectPlayer); // code that displays player
+		SDL_BlitSurface(gPNGSurfacePlayerDown, NULL, gScreenSurface, &player.mRect); // code that displays player
 	}
 }
 
 void GameManager::Update(){
 	sdlInit.Update();
-	MovePlayer(rectPlayer);
+	MovePlayer(player.mRect);
+	food.Pickup(player);
 }

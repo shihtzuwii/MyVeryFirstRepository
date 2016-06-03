@@ -1,10 +1,14 @@
+#pragma once
+
 #include <string>
+#include <SDL_image.h>
 
 class Entity{
 	
-	protected: 
-		std::string name;
-		int mHealth;
-		int xPosition;
-		int yPosition;
+	public:
+		Entity(){};
+		Entity(SDL_Rect rect) : mRect(rect){};
+
+	public:
+		SDL_Rect mRect;
 };
