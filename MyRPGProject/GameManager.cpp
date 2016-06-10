@@ -16,10 +16,10 @@ FoodObject food;
 
 //player stuff
 SDL_Surface* gPNGSurfaceGrass = NULL;
-SDL_Surface* gPNGSurfacePlayer = NULL;
-SDL_Surface* gPNGSurfacePlayerLeft = NULL;
-SDL_Surface* gPNGSurfacePlayerDown = NULL;
-SDL_Surface* gPNGSurfacePlayerRight = NULL;
+//SDL_Surface* gPNGSurfacePlayer = NULL;
+//SDL_Surface* gPNGSurfacePlayerLeft = NULL;
+//SDL_Surface* gPNGSurfacePlayerDown = NULL;
+//SDL_Surface* gPNGSurfacePlayerRight = NULL;
 //food
 SDL_Surface* gPNGSurfaceFood = NULL;
 
@@ -38,50 +38,50 @@ bool GameManager::LoadMedia()
 {
 	//Loading success flag
 	bool success = true;
-	
-	//Entity grass;
-	//SDL_Rect rectGrass(0, 0, 64, 64);
-	//grass.load("grass.png", rectGrass);
 
 	//TODO: move surfaces to individual entities
 
-	//Load PNG surface
-	gPNGSurfaceGrass = sdlInit.loadSurface("grass.png");
-	if (gPNGSurfaceGrass == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
-	gPNGSurfaceFood = sdlInit.loadSurface("food.png");
-	if (gPNGSurfaceFood == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
-	gPNGSurfacePlayer = sdlInit.loadSurface("player_up.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
-	if (gPNGSurfacePlayer == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
-	gPNGSurfacePlayerLeft = sdlInit.loadSurface("player_left.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
-	if (gPNGSurfacePlayerLeft == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
-	gPNGSurfacePlayerDown = sdlInit.loadSurface("player_down.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
-	if (gPNGSurfacePlayerDown == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
-	gPNGSurfacePlayerRight = sdlInit.loadSurface("player_right.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
-	if (gPNGSurfacePlayerRight == NULL)
-	{
-		printf("Failed to load PNG image!\n");
-		success = false;
-	}
+	////Load PNG surface
+	//gPNGSurfaceGrass = sdlInit.loadSurface("grass.png");
+	//if (gPNGSurfaceGrass == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
+	//gPNGSurfaceFood = sdlInit.loadSurface("food.png");
+	//if (gPNGSurfaceFood == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
+
+	player.mTextureName = "player_right.png";
+	sdlInit.LoadTexture(player);
+
+	//gPNGSurfacePlayer = sdlInit.loadSurface("player_up.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
+	//if (gPNGSurfacePlayer == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
+	//gPNGSurfacePlayerLeft = sdlInit.loadSurface("player_left.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
+	//if (gPNGSurfacePlayerLeft == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
+	//gPNGSurfacePlayerDown = sdlInit.loadSurface("player_down.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
+	//if (gPNGSurfacePlayerDown == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
+	//gPNGSurfacePlayerRight = sdlInit.loadSurface("player_right.png"); //<------- TODO HAVE PLAYER FACE THE DIRECTION THEY ARE MOVING
+	//if (gPNGSurfacePlayerRight == NULL)
+	//{
+	//	printf("Failed to load PNG image!\n");
+	//	success = false;
+	//}
 
 	//Seeding our rand...
 	srand(time(0));
@@ -119,25 +119,21 @@ void MovePlayer(SDL_Rect& PlayerRect){
 }
 
 
-
-
-
-
 bool GameManager::Cleanup(){
 	bool success = true;
 
-	if (!sdlInit.Cleanup(gPNGSurfaceGrass)){
+	//if (!sdlInit.Cleanup(gPNGSurfaceGrass)){
+	//	success = false;
+	//}
+
+	if (!sdlInit.Cleanup(player)){
 		success = false;
 	}
 
-	if (!sdlInit.Cleanup(gPNGSurfacePlayer)){
+	/*if (!sdlInit.Cleanup(gPNGSurfaceFood)){
 		success = false;
 	}
-
-	if (!sdlInit.Cleanup(gPNGSurfaceFood)){
-		success = false;
-	}
-
+*/
 	if (!sdlInit.FinalCleanup()){
 		success = false;
 	}
@@ -147,22 +143,24 @@ bool GameManager::Cleanup(){
 
 //TODO add delta time here
 void GameManager::Draw(){
-	SDL_BlitSurface(gPNGSurfaceGrass, NULL, gScreenSurface, NULL); // code that displays grass
+	sdlInit.Draw(player);
 
-	SDL_BlitSurface(gPNGSurfaceFood, NULL, gScreenSurface, &food.mRect); // code that displays food
+	//SDL_BlitSurface(gPNGSurfaceGrass, NULL, gScreenSurface, NULL); // code that displays grass
 
-	if (direction == "up"){
-		SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, &player.mRect); // code that displays player
-	}
-	else if (direction == "left"){
-		SDL_BlitSurface(gPNGSurfacePlayerLeft, NULL, gScreenSurface, &player.mRect); // code that displays player
-	}
-	else if (direction == "right"){
-		SDL_BlitSurface(gPNGSurfacePlayerRight, NULL, gScreenSurface, &player.mRect); // code that displays player
-	}
-	else if (direction == "down"){
-		SDL_BlitSurface(gPNGSurfacePlayerDown, NULL, gScreenSurface, &player.mRect); // code that displays player
-	}
+	//SDL_BlitSurface(gPNGSurfaceFood, NULL, gScreenSurface, &food.mRect); // code that displays food
+
+	//if (direction == "up"){
+	//	SDL_BlitSurface(gPNGSurfacePlayer, NULL, gScreenSurface, &player.mRect); // code that displays player
+	//}
+	//else if (direction == "left"){
+	//	SDL_BlitSurface(gPNGSurfacePlayerLeft, NULL, gScreenSurface, &player.mRect); // code that displays player
+	//}
+	//else if (direction == "right"){
+	//	SDL_BlitSurface(gPNGSurfacePlayerRight, NULL, gScreenSurface, &player.mRect); // code that displays player
+	//}
+	//else if (direction == "down"){
+	//	SDL_BlitSurface(gPNGSurfacePlayerDown, NULL, gScreenSurface, &player.mRect); // code that displays player
+	//}
 }
 
 void GameManager::Update(){
